@@ -143,16 +143,15 @@ Breakpoint for mobile.
     width: 100%;
     z-index:199998;
     color: white;
-    /*transform: translate(-420px);*/
     position: absolute;
     padding-top: 16px;
-    /*left: -420;
-    right: -420;*/
+    -webkit-transition: transform .15s;
+    transform: translate(-420px);
   }
 
   .hideSidebar {
     -webkit-transition: transform .15s;
-    transform: translate(-420px);
+    transform: translate(0px);
   }
 
   .mapContainer {
