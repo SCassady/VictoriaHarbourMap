@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+    content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>Victoria Harbour Points of Interest</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+
+    <div class="topBar" data-bind="css: { widenMapTopbar: hideSidebar() == true }">
+      <div data-bind="" class="hideClickContainer">
+        <span data-bind="click: toggleLeftBar" class="hideClick">&#8801;
+        </span>
+      </div>
+    </div>
+
+    <div class="lowerContent">
+
+      <div class="sidebar" data-bind="css: { hideSidebar: hideSidebar() == true }">
+        <!-- <span data-bind="click: toggleLeftBar, text: topBarText" class="topHideClick"> -->
+        <h1>Victoria Harbour</h1>
+        <input type="text" name="" value="" placeholder="Enter filter term here.." data-bind="textInput: filterText, event: {keyup: performFilterEnter}" class="inputField">
+        <input type="button" name="" value="Filter" data-bind="click: performFilter" class="filterBtn">
+
+      <ul data-bind="foreach: markerList" class="markerList">
+        <li data-bind="visible: filter, click: $parent.displayMarker" class="markerList-entry">
+          <div data-bind="text: title"></div>
+        </li>
+      </ul>
+
+      </div>
+
+      <div class="mapContainer" data-bind="css: { widenMap: hideSidebar() == true }">
+        <div id="map" ></div>
+      </div>
+      <!-- <div class="rightSide" data-bind="css: { rightExpand: hideSidebar() == true }"> -->
+
+
+      </div>
+    </div>
+
+
+
+    <script src="js/libs/knockout-3.4.2.js"></script>
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/neighbourhoodMap.js">
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWzQM3JXs5QO2Q_s4eQ-ioO-sBz3xDiEU&v=3&callback=initMap">
+    </script>
+
+  </body>
+</html>
