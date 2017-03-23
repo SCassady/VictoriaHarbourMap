@@ -96,9 +96,9 @@ function ViewModel() {
     content: ""
   });
 
+  // Create markers and add click listeners.
   var markerInstances = {};
   for (var i = 0; i < self.markerList().length; i++) {
-    // Create markers and add click listener.
     var currentMarker = self.markerList()[i];
     markerInstances[currentMarker.title] = new google.maps.Marker({
         position: currentMarker.coordinates,
@@ -118,7 +118,7 @@ function ViewModel() {
     StopBouncing();
     marker.setAnimation(google.maps.Animation.BOUNCE);
     iWindow.setContent('');
-    var content = '<h4>' + marker.title + '</h4>';
+    var content = '<div class="infoWindow"><h4>' + marker.title + '</h4>';
     var wikiURL = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
     var flickrURL = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=4decdc94dd4d30bed04feb6accae35ca&format=json&text=' + marker.title + '&nojsoncallback=1';
 
@@ -142,12 +142,14 @@ function ViewModel() {
       dataType: 'json',
       success: function(flickrData) {
         var flickrContent = '';
-        for (var i = 0; i < 4; i++) {
+
+        // Append the first 3 returned images, linking to their sources.
+        for (var i = 0; i < 3; i++) {
           var photo = flickrData.photos.photo[i];
-          var photoURL = 'https://farm'+ photo.farm + '.staticflickr.com/'+ photo.server + '/'+ photo.id + '_' + photo.secret + '_q.jpg'
+          var photoURL = 'https://farm'+ photo.farm + '.staticflickr.com/'+ photo.server + '/'+ photo.id + '_' + photo.secret + '_s.jpg'
           flickrContent += '<a target="_blank" href="' + 'https://www.flickr.com/photos/' + photo.owner + '/' + photo.id + '"><img src="'+ photoURL + '"></a>';
         }
-        flickrContent += '<span> (<a href="https://www.flickr.com/">flickr</a>)</span>';
+        flickrContent += '<span> (<a href="https://www.flickr.com/">flickr</a>)</span></div>';
 
         iWindow.setContent(content + flickrContent);
       }
@@ -155,12 +157,15 @@ function ViewModel() {
 
     function FlickrAPICall() {
       $.ajax(flickrURL, ajaxSettingsFlickr).fail(function(){
-        iWindow.setContent(content + '<br><p>The flickr API failed to load.</p>');
+        iWindow.setContent(content + '<br><p>The flickr API failed to load.</p></div>');
       });
     }
 
     $.ajax(wikiURL, ajaxSettingsWiki);
     iWindow.open(map, marker);
+    // Set map center slightly north of the marker to make it easier to view the infoWindow on mobile (especially landscape.)
+    var windowPos = marker.getPosition();
+    map.setCenter({lat: windowPos.lat() + .0065, lng: windowPos.lng()});
   }
 
   function StopBouncing() {
