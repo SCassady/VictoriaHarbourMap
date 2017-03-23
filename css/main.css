@@ -159,4 +159,8 @@ Breakpoint for mobile.
     width: 100%;
   }
 
+  #map {
+    position: absolute;
+  }
+
 }
