@@ -5,7 +5,7 @@ This is a neighbourhood map of Victoria Harbour in Hong Kong, with points of int
 
 ## Viewing :
 
-To view the web application, simply clone this repo and open index.html.
+To view the web application, simply clone this repo and open src/index.html.
 
 ## Build process:
 
