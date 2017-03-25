@@ -54,17 +54,30 @@ function viewModel() {
   self.filterText = ko.observable('');
 
   self.filteredMarkers = ko.computed(function() {
-    // return self.markerList;
+    // If input field not empty, filter markerList for filterText and return the items which pass the filter.
     if (self.filterText === '') {
       return self.markerList;
     } else {
-      var filterTextLower = self.filterText().toLowerCase();
-
       return ko.utils.arrayFilter(self.markerList(), function(marker) {
-        return marker.title.toLowerCase().includes(filterTextLower);
+        return marker.title.toLowerCase().includes(self.filterText().toLowerCase());
       });
     }
   }, this);
+
+  self.filterText.subscribe(function() {
+    // Set filter to true for all markers whose title includes the given string.
+    for (i = 0; i < self.markerList().length; i++) {
+      var currentMarker = self.markerList()[i];
+        if (currentMarker.title.toLowerCase().includes(self.filterText().toLowerCase())) {
+          console.log('currentMarker =' + currentMarker);
+          currentMarker.filter(true);
+          markerInstances[currentMarker.title].setVisible(true);
+        } else {
+          currentMarker.filter(false);
+          markerInstances[currentMarker.title].setVisible(false);
+        }
+    }
+  });
 
   self.toggleLeftBar = function() {
     // Hide sidebar and reset styles and map size accordingly.
